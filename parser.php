@@ -20,6 +20,7 @@ $warehousesCount = 0;
 $allWarehouses = [];
 $productsTypes = 0;
 $ordersCount = 0;
+$allOrders = [];
 
 
 $handle = fopen('./busy_day.in', "r");
@@ -69,6 +70,15 @@ while (($line = fgets($handle)) !== false) {
             case (4+($warehousesCount * 2)):
                 $ordersCount = intval($v);
                 break;
+            case (4+($ordersCount * 3) > $key && (5+($warehousesCount * 2))):
+                if(count($arr) === 2){
+                    $orderName = $arr[0] . 'x' . $arr[1];
+                }elseif(count($arr) === 1){
+                    $orderProductCount = intval($v);
+                }elseif(count($arr) === $orderProductCount){
+                    $allOrders[$orderName] = $arr;
+                }
+                break;
             default:
                 break;
         }
@@ -88,3 +98,4 @@ echo '$productsTypes===>' . $productsTypes . "\n";
 echo '$warehousesCount===>' . $warehousesCount . "\n";
 echo '$ordersCount===>' . $ordersCount . "\n";
 //echo '$warehousesCount===>'; var_dump($allWarehouses); echo "\n";
+//echo '$allOrders===>'; var_dump($allOrders); echo "\n";
